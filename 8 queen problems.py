@@ -6,11 +6,13 @@ Created on Sun Sep  5 12:36:35 2021
 """
 # Python program to solve N Queen
 # Problem using backtracking
-
+import timeit
 global N
-N = 4
+N = 8
+
 
 def printSolution(board):
+    
 	
     return(print( board))
 		
@@ -44,7 +46,7 @@ def isSafe(board, row, col):
 def solveNQUtil(board, col):
 	# base case: If all queens are placed
 	# then return true
-	if col >= N:
+	if int(col) >= N:
 		return True
 
 	# Consider this column and try placing
@@ -77,20 +79,34 @@ def solveNQUtil(board, col):
 # solutions, this function prints one of the
 # feasible solutions.
 def solveNQ():
-	board = [ [0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0]
+    
+    
+	board = [ [0, 0, 0, 0,0,0,0,0],
+			[0, 0, 0, 0,0,0,0,0],
+			[0, 0, 0, 0,0,0,0,0],
+			[0, 0, 0, 0,0,0,0,0],
+            [0, 0, 0, 0,0,0,0,0],
+			[0, 0, 0, 0,0,0,0,0],
+			[0, 0, 0, 0,0,0,0,0],
+			[0, 0, 0, 0,0,0,0,0]
 			]
-
-	if solveNQUtil(board, 1) == False:
+    
+                  
+     
+	if solveNQUtil(board,0) == False:
 		print ("Solution does not exist")
 		return False
 
 	printSolution(board)
-	return True
+    
+	return (True)
+
 
 # driver program to test above function
+starttime = timeit.default_timer
+print(starttime())
 solveNQ()
-
+endtime = timeit.default_timer
+print(endtime())
+print(endtime()-starttime())
 # This code is contributed by Divyanshu Mehta
