@@ -28,7 +28,7 @@ def Lagarange_intrpolate(x_array,y_array,x):
 
 
 P2 = np.zeros(10)
-fig = plt.figure(figsize = (5,5))
+fig = plt.figure(figsize = (6,6))
 
 
 
@@ -45,6 +45,7 @@ for i in range(len(x)):
 
 ax1.plot(x,P2,"r.", label = "$P2(3,4)")
 ax1.legend(loc = "upper center",fancybox=True, shadow=True, prop={'size':'small'})
+
 
 
 
@@ -90,6 +91,10 @@ ax4.plot(x,P2,"r.", label = "$P2(2,3,4,5)")
 ax4.legend(loc = "upper center",fancybox=True, shadow=True, prop={'size':'small'})
 
 
-
+ax1.grid()
+ax2.grid()
+ax3.grid()
+ax4.grid()
+fig.suptitle('lagrange interpolation')
 
 
