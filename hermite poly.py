@@ -12,7 +12,7 @@ hbar=1.
 import matplotlib.pyplot as plt
 from pylab import rcParams;
 rcParams['figure.figsize'] = 10, 10
-fig = plt.figure(figsize = (5,5))
+fig = plt.figure(figsize = (8,8))
 
 import numpy as np
 import numpy.polynomial.hermite as Herm
@@ -50,51 +50,68 @@ import scipy.integrate as integrate
 Cf_1 = np.zeros((5,5)) #first order transistion coefficient
 CF_1 = np.zeros(5)
 time = np.zeros(5)
+fvi = np.zeros(5)
 
-for i in range(5):
-    result = integrate.quad(lambda x: stationary_state(x, i+1)*stationary_state(x, 1),-50 ,50)
+for f in range(5):
+    result = integrate.quad(lambda x: stationary_state(x, f+1)*stationary_state(x, 1),-1 ,1)
     
+    fvi[f] = result[0]**2
     #Cf_1[i] = result[0] ## this is just probability <f|V|i> where i took V = 1
     #print(type(Cf_1[i]))
     for t in range(5):
         time[t]=t
-        a =( np.exp(complex(0,1)*(i-1)*w*t)-1)  
+        a =( np.exp(complex(0,1)*(f)*w*t)-1)  
         
-        if i != 0:
-            res1 = a /i ## this is a/(w-w(fi))
-            res = complex( result[1],0) *res1 ### this is  transistion probability for particular vallue of f(final state )
+        
+        res1 = a /(f+1) ## this is a/(w-w(fi))
+        res = complex( result[1],0) *res1 ### this is  transistion probability for particular vallue of f(final state )
             ## particular value of t 
             
             
         
             #print(abs(res))
-            CF_1[t] = res  ## transition coefficient with resoect to t having fixed f
+        CF_1[t] = res  ## transition coefficient with resoect to t having fixed f
 
-            Cf_1[i,t]= res
+        Cf_1[f,t]= res
+        
             
-            
+P = np.square(Cf_1)            
 colours = ['r','g','b','k']            
 for i in range(5):
-    fig = plt.figure(figsize = (5,5))
-
+    
+    if i != 0:
+        
     #ax1= fig.add_subplot(1,1,1)
-    plt.plot(time,Cf_1[:,i], label = "Transistion probability over time" )
-    plt.xlabel("time")
-    plt.ylabel(i )
-   
-    plt.legend(loc = "best",fancybox=True, shadow=True, prop={'size':'small'})  
+       plt.plot(time,P[i,:], label = "Transistion probability over time: P(1 to " + str(i+1)+ ")")
+       plt.xlabel("time")
+       plt.ylabel("Transistion probability")
+       plt.yscale("log")
+       plt.legend(loc = "best",fancybox=True, shadow=True, prop={'size':'small'})  
+       
+fig = plt.figure(figsize = (10,10))       
 
 for i in range(5):
-    fig = plt.figure(figsize = (5,5))
+    
 
+    
+    if i != 0:
+        
     #ax1= fig.add_subplot(1,1,1)
-    plt.plot(time,Cf_1[i,:], label = "Transistion probability with state" )
-    plt.xlabel("state")
-    plt.ylabel(i )
-   
-    plt.legend(loc = "best",fancybox=True, shadow=True, prop={'size':'small'})         
+       plt.plot(time,P[:,i], label = " Transistion Probabilty P varying with state  for fixed time at " + str(i)+ " sec")
+       plt.xlabel("state")
+       plt.ylabel('Transistion probability' )
+       plt.yscale("log")
+      
+       plt.legend(loc = "upper center",fancybox=True, shadow=True, prop={'size':'small'})         
           
-   
+    #ax1= fig.add_subplot(1,1,1)
+fig = plt.figure(figsize = (8,8))         
+plt.plot(time,fvi, label = "|<f|V|i>|^2" )
+plt.xlabel("f")
+plt.ylabel("|<f|V|i>|^2")
+plt.yscale("log")
+plt.legend(loc = "best",fancybox=True, shadow=True, prop={'size':'small'})         
+             
 #print(Cf_1)
    
 #plt.figure()
